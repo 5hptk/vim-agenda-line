@@ -1,0 +1,104 @@
+*agendaline.txt*  Your next calendar event, in the statusline.
+
+==============================================================================
+CONTENTS                                                  *agendaline-contents*
+
+  1. Intro ................ |agendaline-intro|
+  2. Requirements ......... |agendaline-requirements|
+  3. Usage ................ |agendaline-usage|
+  4. Agenda file .......... |agendaline-file|
+  5. Options .............. |agendaline-options|
+  6. Commands ............. |agendaline-commands|
+  7. API .................. |agendaline-api|
+
+==============================================================================
+1. INTRO                                                     *agendaline-intro*
+
+vim-agenda-line shows your next calendar event in the statusline, e.g. >
+    19:00 30m Incentives Standup (15 ppl)
+<
+Data comes from macOS Calendar (via icalBuddy) or a plain-text file. An event
+that is currently in progress is rendered with a distinct highlight.
+
+==============================================================================
+2. REQUIREMENTS                                       *agendaline-requirements*
+
+- Vim 8+ (uses |+timers|; works without, minus auto-refresh).
+- Optional: icalBuddy for real Calendar data (`brew install ical-buddy`).
+
+==============================================================================
+3. USAGE                                                     *agendaline-usage*
+
+lightline: >
+    let g:lightline = {
+      \ 'active': { 'right': [ ['lineinfo'], ['percent'], ['agenda'] ] },
+      \ 'component_function': { 'agenda': 'agendaline#text' },
+      \ }
+    let g:agendaline_lightline_group = 'LightlineRight_active_2'
+<
+native statusline: >
+    set statusline+=%{%agendaline#statusline()%}
+<
+==============================================================================
+4. AGENDA FILE                                                *agendaline-file*
+
+Fallback source, used when icalBuddy is unavailable. One event per line: >
+    HH:MM[-HH:MM]  Title [(N ppl)]
+    09:30-09:45  Standup (8 ppl)
+    17:00        Deploy window
+<
+End time and "(N ppl)" are optional. See |g:agendaline_default_len|.
+
+==============================================================================
+5. OPTIONS                                                 *agendaline-options*
+
+                                                          *g:agendaline_file*
+Fallback agenda file. Default: "~/.vim_calendar".
+
+                                              *g:agendaline_icalbuddy_args*
+Args appended to the icalBuddy call. Default: "eventsToday".
+
+                                              *g:agendaline_default_len*
+Assumed event length (min) when no end time is given. Default: 30.
+
+                                                    *g:agendaline_wide_cols*
+Below this many columns, show only the start time. Default: 100.
+
+                                                   *g:agendaline_max_title*
+Truncate title to N chars (0 = never). Default: 34.
+
+                                                      *g:agendaline_prefix*
+String prefixed to the component. Default: "  ".
+
+               *g:agendaline_refresh_ms* *g:agendaline_tick_ms*
+Refresh interval and live-repaint tick, in ms. Defaults: 60000, 30000.
+
+                       *g:agendaline_hl_next* *g:agendaline_hl_live*
+:highlight args for upcoming vs in-progress events.
+
+                                          *g:agendaline_lightline_group*
+lightline segment highlight group to recolor when live. Default: "".
+
+               *g:agendaline_autostart* *g:agendaline_auto_paint*
+Toggle autostart and auto-repaint. Defaults: 1, 1.
+
+==============================================================================
+6. COMMANDS                                               *agendaline-commands*
+
+:AgendaLineRefresh      Re-read the source now.
+:AgendaLineEnable       Start timers + first refresh.
+:AgendaLineDisable      Stop timers.
+:AgendaLineEcho         Echo the current component text.
+
+==============================================================================
+7. API                                                         *agendaline-api*
+
+agendaline#text()          Formatted statusline string.
+agendaline#statusline()    Text wrapped in its highlight (native statusline).
+agendaline#is_live()       1 if the cached event is in progress.
+agendaline#event()         Cached {start,end,title,ppl} dict.
+agendaline#refresh()       Refresh the cache.
+agendaline#enable()        Start timers.
+agendaline#disable()       Stop timers.
+
+vim:tw=78:ts=8:ft=help:norl:

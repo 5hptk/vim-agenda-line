@@ -1,0 +1,7 @@
+# vim helptags are generated on install
+doc/tags
+
+# editor / OS cruft
+*.swp
+*.swo
+.DS_Store

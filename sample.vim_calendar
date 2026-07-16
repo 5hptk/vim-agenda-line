@@ -1,0 +1,9 @@
+# Sample agenda for vim-agenda-line.
+# Copy to ~/.vim_calendar (or wherever g:agendaline_file points).
+# Format:  HH:MM[-HH:MM]  Title [(N ppl)]
+#   - end time optional -> defaults to g:agendaline_default_len minutes
+#   - "(N ppl)" optional
+09:30-09:45  Standup (8 ppl)
+11:00-12:00  Design review with platform team (12 ppl)
+14:15-14:45  1:1 with manager (2 ppl)
+17:00-17:30  Deploy window
