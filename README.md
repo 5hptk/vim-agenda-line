@@ -3,7 +3,7 @@
 Your **next calendar event**, right in the statusline.
 
 ```
-  19:00 30m Incentives Standup (15 ppl)
+  19:00 30m Daily Standup (15 ppl)
 ```
 
 - Reads real events from **macOS Calendar** via [`icalBuddy`](https://github.com/ali-rantakari/icalBuddy), or from a **plain-text agenda file** on any OS.
